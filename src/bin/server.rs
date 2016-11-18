@@ -6,7 +6,7 @@ extern crate civet;
 extern crate git2;
 extern crate env_logger;
 
-use cargo_registry::env;
+use cargo_registry::{env, env_with_default};
 use civet::Server;
 use std::env;
 use std::fs::{self, File};
@@ -45,15 +45,15 @@ fn main() {
         cargo_registry::Env::Development
     };
     let config = cargo_registry::Config {
-        s3_bucket: env("S3_BUCKET"),
-        s3_access_key: env("S3_ACCESS_KEY"),
-        s3_secret_key: env("S3_SECRET_KEY"),
+        s3_bucket: env_with_default("S3_BUCKET"),
+        s3_access_key: env_with_default("S3_ACCESS_KEY"),
+        s3_secret_key: env_with_default("S3_SECRET_KEY"),
         s3_region: env::var("S3_REGION").ok(),
         s3_proxy: None,
         session_key: env("SESSION_KEY"),
         git_repo_checkout: checkout,
-        gh_client_id: env("GH_CLIENT_ID"),
-        gh_client_secret: env("GH_CLIENT_SECRET"),
+        gh_client_id: env_with_default("GH_CLIENT_ID"),
+        gh_client_secret: env_with_default("GH_CLIENT_SECRET"),
         db_url: env("DATABASE_URL"),
         env: cargo_env,
         max_upload_size: 10 * 1024 * 1024,

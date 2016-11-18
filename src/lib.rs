@@ -198,3 +198,14 @@ pub fn env(s: &str) -> String {
         Err(_) => panic!("must have `{}` defined", s),
     }
 }
+
+pub fn env_with_default(s: &str) -> String {
+    dotenv::dotenv().ok();
+    match ::std::env::var(s) {
+        Ok(s) => s,
+        Err(_) => {
+            println!("`{}` is not defined. Functionality requiring this value may not work.", s);
+            String::from("")
+        }
+    }
+}
